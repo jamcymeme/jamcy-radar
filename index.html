@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAMCY Radar — Token Security Inspector</title>
+  <meta name="description" content="AI-powered token security inspector for BNB Chain and Solana. Live radar for new Four.meme launches." />
+  <meta name="copyright" content="Copyright (C) 2026 JAMCY (jamcymeme). Licensed under AGPL-3.0." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a class="logo" href="/" aria-label="JAMCY Radar home" onclick="showPage('inspector');return false;">
+      <span class="logo-icon">⚡</span>
+      <div class="logo-text">
+        <span class="logo-title">JAMCY Radar</span>
+        <span class="logo-sub">Token Security Inspector</span>
+      </div>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      <button class="nav-btn active" data-page="inspector">🔎 Inspector</button>
+      <button class="nav-btn" data-page="race">🏁 Race</button>
+      <button class="nav-btn" data-page="graveyard">💀 Graveyard</button>
+      <button class="nav-btn" data-page="stats">📊 Stats</button>
+      <button class="nav-btn" data-page="trends">🧠 Trends</button>
+      <button class="nav-btn" data-page="certify">🎓 Certify</button>
+      <button class="nav-btn" data-page="game">🎯 Rug or Moon?</button>
+      <button class="nav-btn" data-page="runner">🚀 Runner</button>
+    </nav>
+    <button class="radar-toggle" id="radar-toggle" aria-label="Toggle Live Radar" aria-expanded="false">
+      <span class="radar-pulse-dot"></span>
+      Live Radar
+    </button>
+  </header>
+
+  <!-- MAIN: INSPECTOR -->
+  <main class="inspector-main" id="page-inspector">
+
+    <div class="inspector-hero">
+      <h1>Is this token safe?</h1>
+      <p>Paste any BNB Chain or Solana contract address for an instant AI-powered security analysis.</p>
+    </div>
+
+    <!-- Search -->
+    <div class="search-card">
+      <div class="search-row">
+        <input
+          id="addr-input"
+          type="text"
+          placeholder="0x… BNB Chain  or  Solana address"
+          spellcheck="false"
+          autocomplete="off"
+          aria-label="Token contract address"
+        />
+        <button id="inspect-btn" aria-label="Inspect token">
+          <span id="inspect-btn-text">Inspect</span>
+        </button>
+      </div>
+      <div class="chain-hint" id="chain-hint" aria-live="polite"></div>
+    </div>
+
+    <!-- Recent history -->
+    <div class="history-bar" id="history-bar" aria-label="Recent inspections"></div>
+
+    <!-- Result -->
+    <div id="result" class="result-area" aria-live="polite"></div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · Powered by <a href="https://gopluslabs.io" target="_blank" rel="noopener">GoPlus Security</a> + <a href="https://anthropic.com" target="_blank" rel="noopener">Anthropic Claude</a></span>
+      <span>Informational only. Always DYOR. Not financial advice.</span>
+    </footer>
+
+  </main>
+
+  <!-- PAGE: GRADUATION RACE -->
+  <main class="page-main" id="page-race" style="display:none">
+    <div class="page-hero">
+      <h1>🏁 <span class="gradient-text">Graduation Race</span></h1>
+      <p>Tokens closest to graduating from Four.meme bonding curves. Updated every 20s from Live Radar.</p>
+    </div>
+    <div class="race-stats-bar" id="race-stats-bar">
+      <span id="race-total">0 tokens tracked</span>
+      <span id="race-grad-count">0 graduated</span>
+      <span id="race-rug-count">0 rugged</span>
+    </div>
+    <div class="race-board" id="race-board">
+      <div class="page-empty">
+        <div class="page-empty-icon">📡</div>
+        <p>Open Live Radar to start tracking tokens.</p>
+        <button class="open-radar-btn" onclick="openRadar()">Open Live Radar</button>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · Data from Four.meme + GoPlus Security</span>
+      <span>Informational only. Always DYOR.</span>
+    </footer>
+  </main>
+
+  <!-- PAGE: RUG GRAVEYARD -->
+  <main class="page-main" id="page-graveyard" style="display:none">
+    <div class="page-hero">
+      <h1>💀 <span class="gradient-text">Rug Graveyard</span></h1>
+      <p>Confirmed rugs and abandoned bonding curves detected this session. Populated from Live Radar scans and manual inspections. RIP.</p>
+    </div>
+    <div class="graveyard-stats-bar" id="graveyard-stats-bar">
+      <span id="graveyard-count">0 confirmed rugs</span>
+      <span id="graveyard-lost">$0 lost to rugs</span>
+    </div>
+    <div class="graveyard-board" id="graveyard-board">
+      <div class="page-empty" id="graveyard-empty">
+        <div class="page-empty-icon">🍿</div>
+        <p>No rugs detected yet this session.</p>
+        <p style="font-size:0.8rem;color:var(--text-dim);margin-top:4px">Open Live Radar to start scanning.</p>
+        <button class="open-radar-btn" onclick="openRadar()">Open Live Radar</button>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · Rug detection via GoPlus Security + bonding curve analysis</span>
+      <span>Informational only. Always DYOR.</span>
+    </footer>
+  </main>
+
+  <!-- PAGE: LIVE STATS -->
+  <main class="page-main" id="page-stats" style="display:none">
+    <div class="page-hero">
+      <h1>📊 <span class="gradient-text">Live Stats</span></h1>
+      <p>Real-time breakdown of every token scanned this session by the Live Radar.</p>
+    </div>
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">Tokens Scanned</div>
+        <div class="stat-card-value" id="stat-total">0</div>
+        <div class="stat-card-sub" id="stat-rate">Open Live Radar to start</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Graduation Rate</div>
+        <div class="stat-card-value" id="stat-grad-rate">—</div>
+        <div class="stat-card-sub" id="stat-grad-sub">of scanned tokens</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Rug Rate</div>
+        <div class="stat-card-value danger" id="stat-rug-rate">—</div>
+        <div class="stat-card-sub" id="stat-rug-sub">confirmed rugs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Avg Safety Score</div>
+        <div class="stat-card-value" id="stat-avg-score">—</div>
+        <div class="stat-card-sub">across scored tokens</div>
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <div class="stats-section-title">Verdict Distribution</div>
+      <div class="verdict-bars" id="verdict-bars">
+        <div class="verdict-bar-row">
+          <span class="vb-label safe">✅ WAGMI</span>
+          <div class="vb-track"><div class="vb-fill safe" id="vb-wagmi" style="width:0%"></div></div>
+          <span class="vb-count" id="vc-wagmi">0</span>
+        </div>
+        <div class="verdict-bar-row">
+          <span class="vb-label warn">🤔 DYOR</span>
+          <div class="vb-track"><div class="vb-fill warn" id="vb-dyor" style="width:0%"></div></div>
+          <span class="vb-count" id="vc-dyor">0</span>
+        </div>
+        <div class="verdict-bar-row">
+          <span class="vb-label degen">⚠️ DEGEN</span>
+          <div class="vb-track"><div class="vb-fill degen" id="vb-degen" style="width:0%"></div></div>
+          <span class="vb-count" id="vc-degen">0</span>
+        </div>
+        <div class="verdict-bar-row">
+          <span class="vb-label danger">🚨 NGMI</span>
+          <div class="vb-track"><div class="vb-fill danger" id="vb-ngmi" style="width:0%"></div></div>
+          <span class="vb-count" id="vc-ngmi">0</span>
+        </div>
+        <div class="verdict-bar-row">
+          <span class="vb-label muted">⏳ Unverified</span>
+          <div class="vb-track"><div class="vb-fill muted" id="vb-unverified" style="width:0%"></div></div>
+          <span class="vb-count" id="vc-unverified">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-two-col">
+      <div class="stats-section">
+        <div class="stats-section-title">Score Distribution</div>
+        <div class="score-dist" id="score-dist">
+          <div class="sd-row"><span class="sd-label">80–100 🟢</span><div class="sd-track"><div class="sd-fill safe" id="sd-80" style="width:0%"></div></div><span class="sd-count" id="sc-80">0</span></div>
+          <div class="sd-row"><span class="sd-label">60–79 🟡</span><div class="sd-track"><div class="sd-fill warn" id="sd-60" style="width:0%"></div></div><span class="sd-count" id="sc-60">0</span></div>
+          <div class="sd-row"><span class="sd-label">40–59 🟠</span><div class="sd-track"><div class="sd-fill degen" id="sd-40" style="width:0%"></div></div><span class="sd-count" id="sc-40">0</span></div>
+          <div class="sd-row"><span class="sd-label">0–39 🔴</span><div class="sd-track"><div class="sd-fill danger" id="sd-0" style="width:0%"></div></div><span class="sd-count" id="sc-0">0</span></div>
+        </div>
+      </div>
+      <div class="stats-section">
+        <div class="stats-section-title">Top Deployers <span style="font-size:0.7rem;font-weight:400;color:var(--text-dim)">(by launch count)</span></div>
+        <div id="top-deployers"><p class="stats-empty-hint">Scan tokens to populate.</p></div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · Session stats reset on page refresh</span>
+      <span>Informational only. Always DYOR.</span>
+    </footer>
+  </main>
+
+  <!-- PAGE: NARRATIVE TRENDS -->
+  <main class="page-main" id="page-trends" style="display:none">
+    <div class="page-hero">
+      <h1>🧠 <span class="gradient-text">Narrative Trends</span></h1>
+      <p>AI clusters live Four.meme launches by theme. Which narratives are launching — and which are graduating?</p>
+    </div>
+    <div class="trends-status-bar" id="trends-status-bar">
+      <span id="trends-status-text">Open Live Radar to start collecting tokens for AI analysis.</span>
+      <span id="trends-last-run"></span>
+    </div>
+    <div class="trends-board" id="trends-board">
+      <div class="page-empty" id="trends-empty">
+        <div class="page-empty-icon">🧠</div>
+        <p>Waiting for enough tokens to analyse…</p>
+        <p style="font-size:0.8rem;color:var(--text-dim);margin-top:4px">AI runs automatically after 15+ tokens are scanned.</p>
+        <button class="open-radar-btn" onclick="openRadar()">Open Live Radar</button>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · Narrative analysis powered by Anthropic Claude</span>
+      <span>Informational only. Always DYOR.</span>
+    </footer>
+  </main>
+
+  <!-- PAGE: CERTIFY -->
+  <main class="page-main" id="page-certify" style="display:none">
+    <div class="page-hero">
+      <h1>🎓 <span class="gradient-text">Crypto Knowledge Certificate</span></h1>
+      <p>Test your crypto and rug-detection knowledge. Pass with 70%+ to earn your certificate.</p>
+    </div>
+
+    <!-- Pre-quiz state -->
+    <div id="cert-intro" class="cert-intro">
+      <div class="cert-intro-card">
+        <div class="cert-intro-icon">🛡️</div>
+        <h2>Are You Rug-Proof?</h2>
+        <p>Answer <strong>10 multiple-choice questions</strong> on crypto basics, DeFi mechanics, and rug-pull detection.</p>
+        <ul class="cert-rules">
+          <li>✅ Pass score: <strong>7/10 or higher</strong></li>
+          <li>🎲 Questions are randomly selected each attempt</li>
+          <li>📜 Get a shareable certificate on passing</li>
+        </ul>
+        <div class="cert-name-row">
+          <label for="cert-name-input">Your name on the certificate</label>
+          <input type="text" id="cert-name-input" placeholder="Satoshi Nakamoto" maxlength="40" autocomplete="off" spellcheck="false" />
+        </div>
+        <button class="cert-start-btn" id="cert-start-btn" onclick="startCertQuiz()">Start Quiz →</button>
+      </div>
+    </div>
+
+    <!-- Quiz state -->
+    <div id="cert-quiz" class="cert-quiz" style="display:none">
+      <div class="cert-progress-row">
+        <span id="cert-q-counter">Question 1 of 10</span>
+        <div class="cert-progress-track"><div class="cert-progress-fill" id="cert-progress-fill" style="width:0%"></div></div>
+        <span id="cert-score-live">0 / 0</span>
+      </div>
+      <div class="cert-question-card" id="cert-question-card">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- Result state -->
+    <div id="cert-result" class="cert-result" style="display:none">
+      <!-- injected by JS -->
+    </div>
+
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · 50-question bank, 10 random per attempt</span>
+      <span>Knowledge check only. Not financial advice.</span>
+    </footer>
+  </main>
+
+  <!-- PAGE: RUG OR MOON GAME -->
+  <main class="page-main" id="page-game" style="display:none">
+    <div class="page-hero">
+      <h1>🎯 <span class="gradient-text">Rug or Moon?</span></h1>
+      <p>Read the token stats. You have <strong>10 seconds</strong> to decide — Rug 🚨 or Moon 🚀?</p>
+    </div>
+
+    <!-- Intro -->
+    <div id="game-intro" class="game-intro">
+      <div class="game-intro-card">
+        <div class="game-intro-emoji">🎯</div>
+        <h2>Can You Spot the Rug?</h2>
+        <p>You'll see <strong>10 token cards</strong> with real stats. Some are infamous real-world cases — can you spot them? Find out if your instincts are rug-proof.</p>
+        <ul class="game-rules">
+          <li>⏱️ 10 seconds per token</li>
+          <li>📊 Stats: holders, taxes, liquidity, deployer</li>
+          <li>🔥 Streak bonus for consecutive correct answers</li>
+          <li>🏆 Beat 8/10 to reach Rug-Proof status</li>
+        </ul>
+        <button class="game-start-btn" onclick="startGame()">▶️ Start Game</button>
+      </div>
+    </div>
+
+    <!-- Active game -->
+    <div id="game-active" style="display:none">
+      <div class="game-hud">
+        <div class="game-hud-item">
+          <span class="game-hud-label">Question</span>
+          <span class="game-hud-value" id="game-q-num">1 / 10</span>
+        </div>
+        <div class="game-hud-item center">
+          <div class="game-timer-ring" id="game-timer-ring">
+            <svg viewBox="0 0 40 40" class="game-timer-svg">
+              <circle cx="20" cy="20" r="17" class="game-timer-track"/>
+              <circle cx="20" cy="20" r="17" class="game-timer-fill" id="game-timer-circle"/>
+            </svg>
+            <span class="game-timer-num" id="game-timer-num">10</span>
+          </div>
+        </div>
+        <div class="game-hud-item right">
+          <span class="game-hud-label">Score</span>
+          <span class="game-hud-value" id="game-score-display">0</span>
+        </div>
+      </div>
+
+      <div class="game-streak-bar" id="game-streak-bar" style="display:none">
+        <span>🔥 Streak: <strong id="game-streak-num">0</strong></span>
+      </div>
+
+      <div class="game-card" id="game-card">
+        <!-- injected by JS -->
+      </div>
+
+      <div class="game-btns" id="game-btns">
+        <button class="game-btn rug" id="game-btn-rug" onclick="submitAnswer('rug')">
+          🚨 Rug
+        </button>
+        <button class="game-btn moon" id="game-btn-moon" onclick="submitAnswer('moon')">
+          🚀 Moon
+        </button>
+      </div>
+
+      <div class="game-feedback" id="game-feedback" style="display:none">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="game-result" style="display:none">
+      <!-- injected by JS -->
+    </div>
+
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · Rug or Moon? — 29 scenarios incl. real-world cases</span>
+      <span>Educational game. Not financial advice.</span>
+    </footer>
+  </main>
+
+  <!-- PAGE: MOON RUNNER -->
+  <main class="page-main runner-page" id="page-runner" style="display:none">
+    <div class="page-hero">
+      <h1>🚀 <span class="gradient-text">Moon Runner</span></h1>
+      <p>Dodge rugs 🐛 and crashes 🪨 — collect safe tokens ❤️ on the way to the moon!</p>
+    </div>
+
+    <div class="runner-wrap">
+      <!-- Score bar -->
+      <div class="runner-hud" id="runner-hud">
+        <div class="runner-hud-item">
+          <span class="runner-hud-label">Score</span>
+          <span class="runner-hud-value" id="runner-score">0</span>
+        </div>
+        <div class="runner-hud-item center">
+          <span class="runner-hud-label">Level</span>
+          <span class="runner-hud-value" id="runner-level">1</span>
+        </div>
+        <div class="runner-hud-item right">
+          <span class="runner-hud-label">Best</span>
+          <span class="runner-hud-value" id="runner-best">0</span>
+        </div>
+      </div>
+
+      <!-- Canvas -->
+      <div class="runner-canvas-wrap">
+        <canvas id="runner-canvas"></canvas>
+
+        <!-- Overlays -->
+        <div class="runner-overlay" id="runner-intro">
+          <div class="runner-overlay-box">
+            <div class="runner-overlay-emoji">🚀</div>
+            <h2>Moon Runner</h2>
+            <p>Collect ❤️ safe tokens<br>Dodge 🐛 bugs &amp; 🪨 crashes</p>
+            <div class="runner-controls-hint">
+              <span>⬆⬇ or W/S — move</span>
+              <span>Touch — tap top/bottom</span>
+            </div>
+            <button class="runner-start-btn" id="runner-start-btn" onclick="runnerStart()">▶ Play</button>
+          </div>
+        </div>
+
+        <div class="runner-overlay" id="runner-gameover" style="display:none">
+          <div class="runner-overlay-box">
+            <div class="runner-overlay-emoji" id="runner-over-emoji">💥</div>
+            <h2 id="runner-over-title">Game Over</h2>
+            <p id="runner-over-msg"></p>
+            <p class="runner-over-best" id="runner-over-best"></p>
+            <button class="runner-start-btn" onclick="runnerStart()">▶ Play Again</button>
+            <button class="runner-share-btn" id="runner-share-btn" onclick="runnerShareX()">📤 Brag on X</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile d-pad -->
+      <div class="runner-dpad" id="runner-dpad">
+        <button class="runner-dpad-btn" ontouchstart="runnerDpad('up')"   onmousedown="runnerDpad('up')">▲</button>
+        <button class="runner-dpad-btn" ontouchstart="runnerDpad('down')" onmousedown="runnerDpad('down')">▼</button>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <span>⚡ JAMCY Radar · Moon Runner — how high can you go?</span>
+      <span>Educational game. Not financial advice.</span>
+    </footer>
+  </main>
+
+  <!-- RADAR OVERLAY -->
+  <div class="radar-overlay" id="radar-overlay" aria-hidden="true"></div>
+
+  <!-- RADAR PANEL -->
+  <aside class="radar-panel" id="radar-panel" aria-label="Live Radar" aria-hidden="true">
+    <div class="radar-panel-header">
+      <div class="radar-title-row">
+        <span class="radar-pulse-dot live"></span>
+        <h2>Live Radar</h2>
+      </div>
+      <span class="radar-subtitle">Four.meme new launches</span>
+      <button class="radar-close-btn" id="radar-close" aria-label="Close radar">✕</button>
+    </div>
+
+    <div class="radar-stats-bar" id="radar-stats">
+      <span id="radar-count-text">Connecting…</span>
+      <span id="radar-last-update"></span>
+    </div>
+
+    <div class="radar-filter-bar" id="radar-filters">
+      <button class="radar-filter-btn active" data-filter="all">All</button>
+      <button class="radar-filter-btn" data-filter="safe">✅ WAGMI</button>
+      <button class="radar-filter-btn" data-filter="warn">🤔 DYOR</button>
+      <button class="radar-filter-btn" data-filter="danger">🚨 NGMI</button>
+    </div>
+
+    <div class="radar-feed" id="radar-feed">
+      <div class="radar-empty" id="radar-empty">
+        <div class="radar-empty-icon">📡</div>
+        <p>Scanning for new launches…</p>
+      </div>
+    </div>
+  </aside>
+
+  <script src="questions.js"></script>
+  <script src="game-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
