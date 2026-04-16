@@ -80,7 +80,7 @@ input { font-family: inherit; }
   transform: translateY(-100%);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1200px) {
   :root { --header-h: auto; }
   .site-header {
     flex-wrap: wrap;

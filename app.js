@@ -159,10 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const y = window.scrollY;
-          if (y > lastY && y > 80) {
-            header.classList.add('header-hidden');
-          } else {
+          if (y <= 80) {
             header.classList.remove('header-hidden');
+          } else {
+            header.classList.add('header-hidden');
           }
           lastY = y;
           ticking = false;
