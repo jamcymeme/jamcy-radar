@@ -150,6 +150,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chain) runInspect(urlAddr, chain);
   }
 
+  // Hide header on scroll down, show on scroll up (mobile)
+  {
+    const header = document.querySelector('.site-header');
+    let lastY = 0;
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          if (y > lastY && y > 80) {
+            header.classList.add('header-hidden');
+          } else {
+            header.classList.remove('header-hidden');
+          }
+          lastY = y;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
   // Handle ?page= and ?name= deep links (e.g. certificate share links)
   if (urlPage) {
     showPage(urlPage);
