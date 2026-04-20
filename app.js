@@ -2476,7 +2476,7 @@ function shareGameToX(score, total, rank) {
   const SPAWN_MARGIN = 60; // px from right edge before objects start
 
   const HEARTS    = ['❤️', '💰', '🪩'];   // collectibles
-  const HAZARDS   = ['🐛', '🪨', '💥', '☠️']; // hazards
+  const HAZARDS   = ['🐛', '☄️', '💥', '☠️']; // hazards
   const ROCKET_EMO = '🚀';
   const STAR_EMO   = '⭐';
 
